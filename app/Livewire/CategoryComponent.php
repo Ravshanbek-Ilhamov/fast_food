@@ -14,17 +14,12 @@ class CategoryComponent extends Component
     #[Rule('required')]
     public $name;
 
-    #[Rule('required')]
-    public $order;
-
-
-    public $editingOrder;
     public $editingName;
     public $editingId;
 
     public function render()
     {
-        $categories = Category::paginate(15);
+        $categories = Category::orderBy('order')->paginate(15);
         return view('category.category-component',compact('categories'))->layout('components.layouts.admin');
     }
 
@@ -47,22 +42,27 @@ class CategoryComponent extends Component
     
         $this->editingId = $category->id;
         $this->editingName = $category->name;
-        $this->editingOrder = $category->order;
     }
 
     public function updateCategory(){
         $this->validate([
             'editingName' => 'required|string|max:255',
-            'editingOrder' => 'required|integer',
         ]);
 
         $category = Category::findOrFail($this->editingId);
         $category->name = $this->editingName;
-        $category->order = $this->editingOrder;
         $category->save();
 
+        $this->reset();
         session()->flash('success', 'Category updated successfully.');
-        $this->reset('editingName', 'editingOrder', 'editingId');   
     }
+
+    public function updateOrder($categories){
+        foreach ($categories as $category) {
+            Category::where('id', $category['value'])->update(['order' => $category['order']]);
+        }
+    }   
+
+
 }
     

@@ -66,7 +66,8 @@
 
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
-          <li><a class="nav-link scrollto" href="#menu">Menu</a></li>
+          <li><a  class="nav-link scrollto" href="#menu">Menu</a></li>
+          <li><a wire:navigate  class="nav-link scrollto" href="/">Admin Page</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -176,7 +177,7 @@
     </div>
   </footer><!-- End Footer -->
 
-  <div id="preloader"></div>
+  {{-- <div id="preloader"></div> --}}
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->

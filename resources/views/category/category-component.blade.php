@@ -3,18 +3,20 @@
         <section class="content py-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2>Categories</h2>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="button" class="btn btn-primary mr-3" data-toggle="modal" data-target="#createCategoryModal">
                     Create
                 </button>
             </div>
 
-            <!-- Modal -->
-            <div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <!-- Create Modal -->
+            <div wire:ignore.self class="modal fade" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Add New Category</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 class="modal-title" id="createCategoryModalLabel">Add New Cat                                       egory</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="modal-body">
                             @if (session('success'))
@@ -22,108 +24,99 @@
                                     {{ session('success') }}
                                 </div>
                             @endif
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Name:</label>
-                                <input type="text" wire:model="name" 
-                                    class="form-control @error('name') is-invalid @enderror" id="name">
+                            <!-- Name Input -->
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" id="name" 
+                                       wire:model.defer="name" 
+                                       class="form-control @error('name') is-invalid @enderror">
                                 @error('name')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="order" class="form-label">Order Number:</label>
-                                <input type="number" wire:model="order" 
-                                    class="form-control @error('order') is-invalid @enderror" id="order">
-                                @error('order')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" wire:click="store" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" wire:click="store" class="btn btn-primary">Save</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Table -->
+            <!-- Categories Table -->
             <div class="table-responsive">
                 <table class="table table-striped table-dark">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Order</th>
-                            <th scope="col">Action</th>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Order</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody wire:sortable="updateOrder">
                         @foreach ($categories as $category)
-                            <tr>
-                                <th scope="row">{{ $category->id }}</th>
+                            <tr draggable="true" wire:sortable.item="{{ $category->id }}">
+                                <td>{{ $category->id }}</td>
                                 <td>{{ $category->name }}</td>
                                 <td>{{ $category->order }}</td>
                                 <td>
-                                    {{-- <button class="btn btn-sm btn-warning">Edit</button> --}}
-                                    <button type="button" wire:click="findEditing('{{$category->id}}')" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal{{$category->id}}">
-                                        Edit
+                                    <!-- Edit Modal Trigger -->
+                                    <button type="button" wire:click="findEditing('{{ $category->id }}')" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editCategoryModal{{ $category->id }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                          </svg>
                                     </button>
-                                        <!-- Modal -->
-                                        <div wire:ignore.self class="modal fade" id="exampleModal{{$category->id}}" tabindex="-1" aria-labelledby="exampleModalLabel{{$category->id}}" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel{{$category->id}}">Edit Category</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        @if (session('success'))
-                                                            <div class="alert alert-success">
-                                                                {{ session('success') }}
-                                                            </div>
-                                                        @endif
-                                                        <div class="mb-3">
-                                                            <label for="editName{{$category->id}}" class="form-label">Name:</label>
-                                                            <input type="text" id="editName{{$category->id}}" 
-                                                                wire:model.defer="editingName" 
-                                                                class="form-control @error('editingName') is-invalid @enderror">
-                                                            @error('editingName')
-                                                                <span class="text-danger">{{ $message }}</span>
-                                                            @enderror
-                                                        </div>
 
-                                                        <div class="mb-3">
-                                                            <label for="editOrder{{$category->id}}" class="form-label">Order Number:</label>
-                                                            <input type="number" id="editOrder{{$category->id}}" 
-                                                                wire:model.defer="editingOrder" 
-                                                                class="form-control @error('editingOrder') is-invalid @enderror">
-                                                            @error('editingOrder')
-                                                                <span class="text-danger">{{ $message }}</span>
-                                                            @enderror
+                                    <!-- Edit Modal -->
+                                    <div wire:ignore.self class="modal fade" id="editCategoryModal{{ $category->id }}" tabindex="-1" aria-labelledby="editCategoryModalLabel{{ $category->id }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editCategoryModalLabel{{ $category->id }}">Edit Category</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    @if (session('success'))
+                                                        <div class="alert alert-success">
+                                                            {{ session('success') }}
                                                         </div>
+                                                    @endif
+                                                    <!-- Name Input -->
+                                                    <div class="form-group">
+                                                        <label for="editName{{ $category->id }}">Name:</label>
+                                                        <input type="text" id="editName{{ $category->id }}" 
+                                                               wire:model.defer="editingName" 
+                                                               class="form-control @error('editingName') is-invalid @enderror">
+                                                        @error('editingName')
+                                                            <span class="invalid-feedback">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-primary" wire:click="updateCategory">Save changes</button>
-                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary" wire:click="updateCategory">Save changes</button>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
 
-                                    <button class="btn btn-sm btn-danger" wire:click="delete('{{$category->id}}')">Delete</button>
+                                    <!-- Delete Button -->
+                                    <button class="btn btn-sm btn-danger" wire:click="delete('{{ $category->id }}')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                                          </svg>
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-                    {{ $categories->links() }}
+                {{ $categories->links() }}
             </div>
         </section>
     </div>
-    <!-- Button trigger modal -->
-
-  
-
 </div>

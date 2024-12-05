@@ -19,6 +19,7 @@ class FoodComponent extends Component
     public $name;
     public $price;
     public $image_path;
+    public $saved_image;
     public $category_id;    
 
     public $editingname;
@@ -49,7 +50,8 @@ class FoodComponent extends Component
         // $validated = $this->validate();
 
         $filePath = $this->image_path->store('food', 'public');
-
+        $this->saved_image = $filePath;
+        // dd($this->saved_image);
         Food::create([
             'name' => $this->name,  
             'price' => $this->price,
@@ -88,13 +90,15 @@ class FoodComponent extends Component
 
         if($this->editingimage){
             $filePath = $this->editingimage->store('food', 'public');
+            $this->saved_image = $filePath;
         }
+
 
         $food->update([
             'name' => $this->editingname,
             'price' => $this->editingprice, 
             'category_id' => $this->editingcategory_id,
-            'image_path' => $filePath,
+            'image_path' => $filePath ?? '',
         ]);
 
         $this->reset();
