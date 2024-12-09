@@ -20,7 +20,7 @@ class CategoryComponent extends Component
     public function render()
     {
         $categories = Category::orderBy('order')->paginate(15);
-        return view('category.category-component',compact('categories'))->layout('components.layouts.admin');
+        return view('admin.category.category-component',compact('categories'))->layout('components.layouts.admin');
     }
 
 

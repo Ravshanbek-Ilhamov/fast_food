@@ -34,7 +34,7 @@ class FoodComponent extends Component
     {
         $this->categories = Category::all();
         $foods = Food::paginate(10);
-        return view('food.food-component',compact('foods'))->layout('components.layouts.admin');
+        return view('admin.food.food-component',compact('foods'))->layout('components.layouts.admin');
     }
 
 
