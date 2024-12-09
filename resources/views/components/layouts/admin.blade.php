@@ -71,6 +71,11 @@
             <i class="nav-icon fas fa-chart-pie"></i>
             <p>User Page</p>
           </a>
+
+          <a href="/orders" wire:navigate class="nav-link">
+            <i class="nav-icon fas fa-chart-pie"></i>
+            <p>Orders</p>
+          </a>
         </ul>
       </nav>
     </div>
