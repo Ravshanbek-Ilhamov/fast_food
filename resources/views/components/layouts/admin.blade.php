@@ -57,6 +57,21 @@
 
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <a href="/users" wire:navigate class="nav-link">
+            <i class="nav-icon fas fa-chart-pie"></i>
+            <p>Users</p>
+          </a>
+
+          <a href="/sections" wire:navigate class="nav-link">
+            <i class="nav-icon fas fa-chart-pie"></i>
+            <p>Sections</p>
+          </a>
+
+          <a href="/workers" wire:navigate class="nav-link">
+            <i class="nav-icon fas fa-chart-pie"></i>
+            <p>Workers</p>
+          </a>
+          
           <a href="/" wire:navigate class="nav-link">
             <i class="nav-icon fas fa-chart-pie"></i>
             <p>Categories</p>

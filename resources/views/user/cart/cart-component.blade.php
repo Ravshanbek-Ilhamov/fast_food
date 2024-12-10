@@ -202,9 +202,12 @@
             <div class="cart-right mt-5">
                 <div class="summary">
                     <h3>Your Order</h3>
-                    <p>Products ({{session('foods') ? count(session('foods')) : 0}}): <strong>${{number_format($superTotal, 2)}}</strong></p>
+                    @foreach (session('foods') as $food)
+                        <p>{{$food['name']}} <strong>Quantity: {{$food['quantity']?$food['quantity']:0}}</strong><strong>${{number_format($food['total_price'], 2)}}</strong></p>
+                    @endforeach
+                    <p>Total Price: <strong>${{number_format($superTotal, 2)}}</strong></p>
                     <p>Discount: <span style="color: green;">${{ number_format($superTotal * 0.2)}}</span></p>
-                    <p><strong>${{ number_format($superTotal - ($superTotal * 0.2))}}</strong></p>
+                    <p>You Pay: <strong>${{ number_format($superTotal - ($superTotal * 0.2),2)}}</strong></p>
                     <button wire:click="saveOrder" class="checkout-btn">Proceed to Checkout</button>
                 </div>
                 <div class="delivery-note">
