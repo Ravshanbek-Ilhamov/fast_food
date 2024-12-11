@@ -37,6 +37,11 @@ class AttendanceComponent extends Component
 
     public function store()
     {
+        $startTime = Carbon::createFromFormat('H:i:s', $this->started_time);
+        // $endTime = Carbon::now();
+
+        $timer = round($startTime->diffInSeconds($this->endTime) / 3600, 2);
+
         $this->validate();
         Attendance::create([
             'user_id' => $this->user_id,
@@ -44,7 +49,7 @@ class AttendanceComponent extends Component
             'date' => $this->date,
             'started_time' => $this->started_time,
             'ended_time' => $this->ended_time,
-            'time' => $this->time,
+            'time' => $timer,
         ]);
         session()->flash('message', 'Attendance record created successfully!');
         $this->resetForm();
@@ -67,20 +72,30 @@ class AttendanceComponent extends Component
 
     public function update()
     {
-        $this->validate();
         $attendance = Attendance::findOrFail($this->attendance_id);
+    
+        $startTime = Carbon::createFromFormat('H:i:s', $attendance->started_time);
+        $endTime = Carbon::createFromFormat('H:i:s', $this->ended_time);
+    
+        // Calculate the total hours worked
+        $timer = round($startTime->diffInSeconds($endTime) / 3600, 2);
+    
+        $this->validate();
+    
         $attendance->update([
             'user_id' => $this->user_id,
             'worker_id' => $this->worker_id,
             'date' => $this->date,
             'started_time' => $this->started_time,
             'ended_time' => $this->ended_time,
-            'time' => $this->time,
+            'time' => $timer,
         ]);
+    
         session()->flash('message', 'Attendance record updated successfully!');
         $this->resetForm();
         $this->editForm = false;
     }
+    
 
     public function delete($id)
     {
