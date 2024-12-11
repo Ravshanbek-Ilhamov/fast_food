@@ -3,7 +3,8 @@
         <section id="menu" class="content py-4">
 
             @if ($createForm || $editForm)
-                 <!-- Section -->
+
+            <!-- Section -->
                  <div class="mb-3">
                     <label for="section_id" class="form-label">Section:</label>
                     <select wire:model.defer="section_id" class="form-control" id="section_id">
@@ -16,11 +17,26 @@
                     @enderror
                 </div>
 
+                <!-- Hours Per Month -->
+                <div class="mb-3">
+                    <label for="user_id" class="form-label">User</label>
+                    <select class="form-control" wire:model.defer="user_id">
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('user_id')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
                 <!-- Monthly Salary Type -->
                 <div class="mb-3">
                     <label for="monthly_salary_type" class="form-label">Salary Type:</label>
-                    <input type="text" wire:model.defer="monthly_salary_type" 
-                        class="form-control @error('monthly_salary_type') is-invalid @enderror" id="monthly_salary_type">
+                    <select class="form-control" wire:model.defer="monthly_salary_type">
+                        <option value="hourly">Hourly</option>
+                        <option value="fixed">Fixed</option>
+                    </select>
                     @error('monthly_salary_type')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -46,15 +62,6 @@
                     @enderror
                 </div>
 
-                <!-- Hours Per Month -->
-                <div class="mb-3">
-                    <label for="hours_per_month" class="form-label">Hours Per Month:</label>
-                    <input type="number" wire:model.defer="hours_per_month" 
-                        class="form-control @error('hours_per_month') is-invalid @enderror" id="hours_per_month">
-                    @error('hours_per_month')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
 
                 <!-- Started Time -->
                 <div class="mb-3">

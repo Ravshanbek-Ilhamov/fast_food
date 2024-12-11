@@ -27,4 +27,10 @@ class Worker extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function attendance()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
 }
