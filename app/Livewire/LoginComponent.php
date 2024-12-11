@@ -26,10 +26,17 @@ class LoginComponent extends Component
     
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
             $worker = Auth::user()->worker;
-    
+            
+            $attend = Attendance::where('user_id', Auth::user()->id)->where('date', Carbon::now()->format('Y-m-d'))->first();
+
             if (!$worker) {
                 session()->flash('error', 'Worker information is missing for this user.');
                 return redirect('/');
+            }
+
+            if ($attend) {
+                session()->flash('error', 'You have already logged in.');
+                return redirect('/user-page');
             }
     
             $attendance = Attendance::create([
@@ -37,6 +44,8 @@ class LoginComponent extends Component
                 'worker_id' => $worker->id,
                 'date' => Carbon::now()->format('Y-m-d'),
                 'started_time' => Carbon::now()->format('H:i:s'),
+                'ended_time' => null,
+                'time' => 0
             ]);
     
             Log::info('Attendance created', ['attendance' => $attendance]);
