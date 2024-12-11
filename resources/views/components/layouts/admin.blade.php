@@ -32,7 +32,10 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/" wire:navigate class="nav-link">Home</a>
+        <a href="/user-page" wire:navigate class="nav-link">User Page</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block ">
+        <a href="/logout" class="nav-link">Logout</a>
       </li>
     </ul>
   </nav>
@@ -54,12 +57,16 @@
           <span>Someone</span>
         </div>
       </div>
-
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <a href="/users" wire:navigate class="nav-link">
             <i class="nav-icon fas fa-chart-pie"></i>
             <p>Users</p>
+          </a>
+
+          <a href="/attendance" wire:navigate class="nav-link">
+            <i class="nav-icon fas fa-chart-pie"></i>
+            <p>Attendance</p>
           </a>
 
           <a href="/sections" wire:navigate class="nav-link">
@@ -72,7 +79,7 @@
             <p>Workers</p>
           </a>
           
-          <a href="/" wire:navigate class="nav-link">
+          <a href="/categories" wire:navigate class="nav-link">
             <i class="nav-icon fas fa-chart-pie"></i>
             <p>Categories</p>
           </a>
@@ -80,11 +87,6 @@
           <a href="/foods" wire:navigate  class="nav-link">
             <i class="nav-icon fas fa-chart-pie"></i>
             <p>Foods</p>
-          </a>
-
-          <a href="/user-page" wire:navigate class="nav-link">
-            <i class="nav-icon fas fa-chart-pie"></i>
-            <p>User Page</p>
           </a>
 
           <a href="/orders" wire:navigate class="nav-link">

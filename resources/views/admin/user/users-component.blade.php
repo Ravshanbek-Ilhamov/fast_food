@@ -106,7 +106,7 @@
                                 <td>{{ $user->phone_number }}</td>
                                 <td>{{ $user->role->name }}</td>
                                 <td>
-                                    <img src="{{ asset('storage/'.$user->image) }}" alt="User Image" width="50px">
+                                    <img src="{{ asset('storage/'.$user->image_path) }}" alt="User Image" width="50px">
                                 </td>
                                 <td>
                                     <button type="button" wire:click="edit({{ $user->id }})" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editModal">
