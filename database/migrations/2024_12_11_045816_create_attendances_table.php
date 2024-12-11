@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('date');
             $table->time('started_time')->nullable();
             $table->time('ended_time')->nullable();
-            $table->float('time')->nullable();
+            $table->double('time')->nullable();
             $table->timestamps();
         });
     }
