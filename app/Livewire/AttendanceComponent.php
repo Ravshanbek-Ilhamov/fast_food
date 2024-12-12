@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Attendance;
+use App\Models\Worker;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;
@@ -10,7 +11,7 @@ class AttendanceComponent extends Component
 {
     use WithPagination;
 
-    public $user_id, $worker_id, $date, $started_time, $ended_time, $time, $attendance_id;
+    public $user_id, $worker_id,$workers, $days, $date, $started_time, $ended_time, $time, $attendance_id, $fullDate, $monthName, $year, $daysInMonth;
     public $createForm = false;
     public $editForm = false;
 
@@ -22,11 +23,55 @@ class AttendanceComponent extends Component
         'ended_time' => 'required|date_format:H:i:s',
     ];
 
+    public function mount()
+    {
+        $now = Carbon::now('Asia/Tashkent'); 
+        
+        $this->fullDate = $now; // The full Carbon instance
+        $this->date = $now->toDateString(); // "2024-12-03" as a string in the 'Y-m-d' format
+        $this->monthName = $now->format('F'); // "December" (current month name)
+        $this->year = $now->year; 
+        $this->daysInMonth = $now->daysInMonth; 
+    }
     public function render()
     {
+        $this->days = [];
+        $this->workers = Worker::all();
+        $parsedDate = Carbon::parse($this->date); 
+        
+        for ($i = 1; $i <= $this->daysInMonth; $i++) { // Use <= to include the last day
+            $this->days[] = Carbon::create($parsedDate->year, $parsedDate->month, $i);
+        }   
+
         return view('admin.attendance.attendance-component', [
             'attendances' => Attendance::paginate(10),
         ])->layout('components.layouts.admin');
+    }
+
+    public function updateAttendance($workerId, $date)
+    {
+        $attendance = Attendance::where('worker_id', $workerId)->where('date', $date)->first();
+        if ($attendance) {
+            $this->editForm = true;
+            $this->attendance_id = $attendance->id;
+            $this->user_id = $attendance->user_id;
+            $this->worker_id = $attendance->worker_id;
+            $this->date = $attendance->date;
+            $this->started_time = $attendance->started_time;
+            $this->ended_time = $attendance->ended_time;
+            $this->time = $attendance->time;
+        }
+    }
+
+
+    public function findTheDate()
+    {
+        if ($this->date) {
+            $parsedDate = Carbon::parse($this->date); 
+            $this->monthName = $parsedDate->format('F');
+            $this->year = $parsedDate->year;
+            $this->daysInMonth = $parsedDate->daysInMonth; 
+        }
     }
 
     public function formCreate()
