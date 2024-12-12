@@ -11,9 +11,8 @@ use App\Livewire\OrdersComponent;
 use App\Livewire\SectionComponent;
 use App\Livewire\UserPageComponent;
 use App\Livewire\UsersComponent;
+use App\Livewire\WaiterBoardComponent;
 use App\Livewire\WorkersComponent;
-use App\Models\Attendance;
-use App\Models\Food;
 use Illuminate\Support\Facades\Route;
 
 
@@ -31,3 +30,4 @@ Route::get('/sections',SectionComponent::class);
 Route::get('/workers',WorkersComponent::class);
 
 Route::get('/attendance',AttendanceComponent::class);
+Route::get('/waiterboard',WaiterBoardComponent::class);

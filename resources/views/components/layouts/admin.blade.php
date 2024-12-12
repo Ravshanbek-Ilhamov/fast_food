@@ -69,6 +69,11 @@
             <p>Attendance</p>
           </a>
 
+          <a href="/waiterboard" wire:navigate class="nav-link">
+            <i class="nav-icon fas fa-chart-pie"></i>
+            <p>Waiter Board</p>
+          </a>
+
           <a href="/sections" wire:navigate class="nav-link">
             <i class="nav-icon fas fa-chart-pie"></i>
             <p>Sections</p>
