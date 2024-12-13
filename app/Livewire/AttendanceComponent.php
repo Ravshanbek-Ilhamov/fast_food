@@ -7,6 +7,8 @@ use App\Models\Worker;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+
 class AttendanceComponent extends Component
 {
     use WithPagination;
@@ -27,9 +29,9 @@ class AttendanceComponent extends Component
     {
         $now = Carbon::now('Asia/Tashkent'); 
         
-        $this->fullDate = $now; // The full Carbon instance
-        $this->date = $now->toDateString(); // "2024-12-03" as a string in the 'Y-m-d' format
-        $this->monthName = $now->format('F'); // "December" (current month name)
+        $this->fullDate = $now;
+        $this->date = $now->toDateString(); 
+        $this->monthName = $now->format('F');
         $this->year = $now->year; 
         $this->daysInMonth = $now->daysInMonth; 
     }
@@ -38,7 +40,9 @@ class AttendanceComponent extends Component
         $this->days = [];
         $this->workers = Worker::all();
         $parsedDate = Carbon::parse($this->date); 
-        
+        // $this->createForm = true;
+        // $this->editForm = true;
+        // dd($this->daysInMonth,$this->monthName);
         for ($i = 1; $i <= $this->daysInMonth; $i++) { // Use <= to include the last day
             $this->days[] = Carbon::create($parsedDate->year, $parsedDate->month, $i);
         }   
@@ -63,6 +67,48 @@ class AttendanceComponent extends Component
         }
     }
 
+    public function storeAttendance(){
+
+        $startTime = Carbon::createFromFormat('H:i', $this->started_time);
+        // $endTime = Carbon::now();
+        // dd($this->endTime,$this->started_time);
+
+
+        $timer = round($startTime->diffInSeconds($this->ended_time) / 3600, 2);
+        // dd($timer);
+        Attendance::create([
+            'user_id' => $this->user_id,
+            'worker_id' => $this->worker_id,
+            'date' => $this->date,
+            'started_time' => $this->started_time,
+            'ended_time' => $this->ended_time,
+            'time' => $timer
+        ]);
+        session()->flash('message', 'Attendance record created successfully!');
+        $this->resetForm();
+        $this->createForm = false;
+    }
+
+    public function checkAttendance($workerId, $date)
+    {
+        $attendance = Attendance::where('worker_id', $workerId)->where('date', $date)->first();
+        // dd($date);
+        if ($attendance) {
+            return $attendance;
+        }
+    }
+
+    public function createAttendance($workerId, $date)
+    {
+        $worker = Worker::where('id', $workerId)->first();
+        // dd($worker->user);
+        $this->user_id = $worker->user->id;
+        $this->worker_id = $workerId;
+        $this->date = $date;
+        $this->createForm = true;
+
+    }
+
 
     public function findTheDate()
     {
@@ -84,6 +130,7 @@ class AttendanceComponent extends Component
     {
         $startTime = Carbon::createFromFormat('H:i:s', $this->started_time);
         // $endTime = Carbon::now();
+
 
         $timer = round($startTime->diffInSeconds($this->endTime) / 3600, 2);
 

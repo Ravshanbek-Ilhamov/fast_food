@@ -100,11 +100,11 @@
                 <div class="card-header">
                   <h5 class="card-title">Order {{$order->queue}}</h5>
                   <div class="card-tools">
-                    <a href="#" wire:click="switchOrderStatus({{$order->id}}, 'in_hand')">
+                    {{-- <a href="#" wire:click="switchOrderStatus({{$order->id}}, 'in_hand')">
                       <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-caret-right-square-fill text-success mr-2 " viewBox="0 0 16 16">
                         <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm5.5 10a.5.5 0 0 0 .832.374l4.5-4a.5.5 0 0 0 0-.748l-4.5-4A.5.5 0 0 0 5.5 4z"/>
                       </svg>
-                    </a>
+                    </a> --}}
                   </div>
                 </div>
                 <div class="card-body">

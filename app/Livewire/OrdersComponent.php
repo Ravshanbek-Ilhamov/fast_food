@@ -11,7 +11,7 @@ class OrdersComponent extends Component
     public $orders;
     public function render()
     {
-        $this->orders = Order::all();
+        $this->orders = Order::where('date', date('Y-m-d'))->get();
         return view('admin.orders.orders-component')->layout('components.layouts.admin');
     }
 

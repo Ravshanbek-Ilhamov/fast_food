@@ -82,6 +82,7 @@
                 In Hand
               </h3>
             </div>
+            
             <div class="card-body">
                 @foreach ($orders->where('status', 'in_hand') as $order)
                   <div class="card card-info card-outline">
