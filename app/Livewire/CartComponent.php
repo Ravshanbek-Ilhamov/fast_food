@@ -68,7 +68,7 @@ class CartComponent extends Component
         }
 
         session()->forget('foods');
-        return redirect('/user-page');
+        return redirect('/');
     }
 
     public function updateCartQuantity($foodId, $increment = true)

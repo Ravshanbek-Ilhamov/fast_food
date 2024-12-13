@@ -12,7 +12,7 @@ class WaiterBoardComponent extends Component
     public function render()
     {
 
-        $this->orders = Order::all();
+        $this->orders = Order::where('date', date('Y-m-d'))->get();
         return view('admin.waiterboard.waiter-board-component')->layout('components.layouts.admin');
     }
 

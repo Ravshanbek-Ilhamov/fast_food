@@ -13,7 +13,7 @@ class LoginComponent extends Component
 {
     public $password, $email;
     public function render()
-    {
+    {   
         return view('auth.login-component')->layout('components.layouts.empty');
     }
 
@@ -31,12 +31,12 @@ class LoginComponent extends Component
 
             if (!$worker) {
                 session()->flash('error', 'Worker information is missing for this user.');
-                return redirect('/');
+                return redirect('/login');
             }
 
             if ($attend) {
                 session()->flash('error', 'You have already logged in.');
-                return redirect('/user-page');
+                return redirect('/categories');
             }
     
             $attendance = Attendance::create([
@@ -47,13 +47,11 @@ class LoginComponent extends Component
                 'ended_time' => null,
                 'time' => 0
             ]);
-    
             Log::info('Attendance created', ['attendance' => $attendance]);
-    
-            return redirect('/user-page');
+            return redirect('/categories');
         } else {
             session()->flash('error', 'Email or password is incorrect.');
-            return redirect('/');
+            return redirect('/login');
         }
     }
     
