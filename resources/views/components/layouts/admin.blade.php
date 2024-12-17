@@ -69,6 +69,17 @@
             <p>Attendance</p>
           </a>
 
+          <a href="/salary" wire:navigate class="nav-link">
+            <i class="nav-icon fas fa-chart-pie"></i>
+            <p>Salary</p>
+          </a>
+
+          <a href="/kpi-salary" wire:navigate class="nav-link">
+            <i class="nav-icon fas fa-chart-pie"></i>
+            <p>KPI Salary</p>
+          </a>
+
+
           <a href="/waiterboard" wire:navigate class="nav-link">
             <i class="nav-icon fas fa-chart-pie"></i>
             <p>Waiter Board</p>

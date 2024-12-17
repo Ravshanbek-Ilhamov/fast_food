@@ -128,7 +128,7 @@ class AttendanceComponent extends Component
 
     public function store()
     {
-        $startTime = Carbon::createFromFormat('H:i:s', $this->started_time);
+        $startTime = Carbon::createFromFormat('H:i', $this->started_time);
         // $endTime = Carbon::now();
 
 
@@ -166,8 +166,8 @@ class AttendanceComponent extends Component
     {
         $attendance = Attendance::findOrFail($this->attendance_id);
     
-        $startTime = Carbon::createFromFormat('H:i:s', $attendance->started_time);
-        $endTime = Carbon::createFromFormat('H:i:s', $this->ended_time);
+        $startTime = Carbon::createFromFormat('H:i', $attendance->started_time);
+        $endTime = Carbon::createFromFormat('H:i', $this->ended_time);
     
         // Calculate the total hours worked
         $timer = round($startTime->diffInSeconds($endTime) / 3600, 2);

@@ -127,7 +127,14 @@
             </h3>
           </div>
           <div class="card-body">
-              @foreach ($orders->where('status', 'in_hand') as $order)
+            @php
+                $inhand = $orders->where('status', 'in_hand');
+            @endphp
+            @foreach ( $orders->where('status', 'in_hand') as $order)
+            {{-- @php
+            dd();
+                
+            @endphp --}}
                 <div class="card card-info card-outline">
                   <div class="card-header">
                     <h5 class="card-title">Order {{$order->queue}}</h5>

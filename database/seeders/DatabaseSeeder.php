@@ -53,13 +53,13 @@ class DatabaseSeeder extends Seeder
             Worker::create([
                 'user_id' => rand(1, 10),
                 'section_id' => rand(1, 3),
-                'monthly_salary_type' => ['hourly', 'fixed'][rand(0, 1)],
+                'monthly_salary_type' => ['kpi', 'fixed'][rand(0, 1)],
                 'monthly_salary_amount' => rand(300, 3000),
                 'bonus' => rand(0, 50),
                 'hours_per_month' => rand(80, 160),
                 'started_time' => now()->subHours(rand(1, 5))->format('H:i:s'),
                 'ended_time' => now()->format('H:i:s'),
-                'total_hours' => rand(50, 100),
+                'total_hours' => rand(1, 24),
             ]);
         }
     }

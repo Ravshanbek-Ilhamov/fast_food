@@ -10,4 +10,15 @@ class WaiterOrder extends Model
         'order_id',
         'worker_id',
     ];
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class,'order_id');
+    }
+
+
+    public function worker()
+    {
+        return $this->belongsTo(Worker::class,'worker_id');
+    }
 }

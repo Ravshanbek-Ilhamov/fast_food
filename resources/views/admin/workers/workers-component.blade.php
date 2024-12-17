@@ -34,7 +34,7 @@
                 <div class="mb-3">
                     <label for="monthly_salary_type" class="form-label">Salary Type:</label>
                     <select class="form-control" wire:model.defer="monthly_salary_type">
-                        <option value="hourly">Hourly</option>
+                        <option value="kpi">KPI</option>
                         <option value="fixed">Fixed</option>
                     </select>
                     @error('monthly_salary_type')
