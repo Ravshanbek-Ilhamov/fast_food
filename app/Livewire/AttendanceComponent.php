@@ -21,8 +21,8 @@ class AttendanceComponent extends Component
         'user_id' => 'required|exists:users,id',
         'worker_id' => 'required|exists:workers,id',
         'date' => 'required|date',
-        'started_time' => 'required|date_format:H:i:s',
-        'ended_time' => 'required|date_format:H:i:s',
+        'started_time' => 'required',
+        'ended_time' => 'required',
     ];
 
     public function mount()
@@ -165,8 +165,11 @@ class AttendanceComponent extends Component
     public function update()
     {
         $attendance = Attendance::findOrFail($this->attendance_id);
-    
-        $startTime = Carbon::createFromFormat('H:i', $attendance->started_time);
+        
+        // dd($attendance->started_time, $this->ended_time);
+
+        
+        $startTime = Carbon::createFromFormat('H:i:s', $attendance->started_time);
         $endTime = Carbon::createFromFormat('H:i', $this->ended_time);
     
         // Calculate the total hours worked

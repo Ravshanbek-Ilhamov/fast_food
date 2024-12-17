@@ -40,10 +40,10 @@
                     @enderror
                 </div>
                 
-                {{-- <p class="text-muted">Maximum payable amount: {{ $monthly_salary_amount }}</p> --}}
-
-
                 @if ($editForm)
+                    <p class="text-muted"> Unpayed amount: {{ $unpaid_amount }}$ <br>
+                        You have to write {{ $paid_amount + $unpaid_amount }}$
+                    </p>
                     <button class="btn btn-primary" wire:click="update">Update</button>
                 @else
                     <button class="btn btn-primary" wire:click="store">Store</button>
@@ -68,7 +68,6 @@
             <h4 class="mr-3 m-3" style="color: rgb(10, 16, 20)">
                 {{$monthName}} {{$year}}
             </h4>
-            
 
             <!-- Table -->
             <div class="table-responsive mb-4">
@@ -78,12 +77,13 @@
                             <th scope="col">#</th>
                             <th scope="col">Worker</th>
                             <th scope="col">Salary</th>
+                            <th scope="col">Bonus</th>
                             <th scope="col">Paid Salary</th>
                             <th scope="col">UnPaid Salary</th>
                             <th scope="col">Worked Hours</th>
                             <th scope="col">Date</th>
                             <th scope="col">Type</th>
-                            {{-- <th scope="col">Action</th> --}}
+                            <th scope="col">Action</th>
                         </tr>
                         <tbody>
                             @foreach ($workers->where('monthly_salary_type', 'kpi') as $worker)
@@ -93,23 +93,25 @@
                                     <tr>
                                         <th scope="row">{{ $salary->id }}</th>
                                         <td>{{ $worker->user->name }}</td>
-                                        <td>{{ $worker->monthly_salary_amount }}</td>
-                                        <td>{{ $salary->paid_amount }}</td>
-                                        <td>{{ $salary->unpaid_amount }}</td>
-                                        <td>{{ $worker->hours_per_month }}</td>
+                                        <td>${{ $worker->monthly_salary_amount }}</td>
+                                        <td>{{ $worker->bonus }}%</td>
+                                        <td>${{ $salary->paid_amount }}</td>
+                                        <td>${{ $salary->unpaid_amount }}</td>
+                                        <td>{{ $worker->hours_per_month }} Hours</td>
                                         <td>{{ $salary->date }}</td>
                                         <td>{{ $salary->type }}</td>
-                                        {{-- <td>
-                                            <button type="button" wire:click="edit({{ $worker->id }})" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editModal">
-                                                Edit
+                                        <td>
+                                            <button type="button" wire:click="edit({{ $salary->id }})" class="btn btn-sm btn-warning">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                                  </svg>
                                             </button>
-                                            <button class="btn btn-sm btn-danger" wire:click="delete({{ $worker->id }})">Delete</button>
-                                        </td> --}}
+                                        </td>
                                     </tr>
                                 @endforeach
                             @endforeach
                         </tbody>
-                        
                 </table>
                 {{-- {{ $workers->links() }} --}}
             </div>

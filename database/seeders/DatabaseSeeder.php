@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
                 'hours_per_month' => rand(80, 160),
                 'started_time' => now()->subHours(rand(1, 5))->format('H:i:s'),
                 'ended_time' => now()->format('H:i:s'),
-                'total_hours' => rand(1, 24),
+                'total_hours' => rand(1, 12),
             ]);
         }
     }

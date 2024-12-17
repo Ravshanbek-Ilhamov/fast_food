@@ -14,7 +14,7 @@ class SalaryComponent extends Component
 
     public $createForm = false ,$editForm = false;
     public $worker_id,$salary_amount,$paid_amount,$unpaid_amount,$date,$type;
-    public $fullDate,$monthName,$year,$daysInMonth;
+    public $fullDate,$monthName,$year,$daysInMonth,$id;
     public $monthly_salary_amount;
 
     public function mount()
@@ -49,6 +49,7 @@ class SalaryComponent extends Component
         }
     }
 
+
     public function store(){
         $this->validate([
             'worker_id' => 'required',
@@ -71,6 +72,44 @@ class SalaryComponent extends Component
         $this->createForm = false;
         $this->editForm = false;
         session()->flash('success', 'Salary created successfully!');
+    }
+
+    public function edit($id){
+        $this->editForm = true;
+        $salary = Salary::find($id);
+        // dd($salary);
+        $this->id = $salary->id;
+        $this->worker_id = $salary->worker_id;
+        $this->salary_amount = $salary->salary_amount;
+        $this->paid_amount = $salary->paid_amount;
+        $this->unpaid_amount = $salary->unpaid_amount;
+        $this->date = $salary->date;
+        $this->type = $salary->type;
+    }
+
+    public function update(){
+        $this->validate([
+            'worker_id' => 'required',
+            'paid_amount' => 'required',
+            'date' => 'required',
+        ]);
+
+        $worker = Worker::find($this->worker_id);
+
+        $salary = Salary::find($this->id);
+        $salary->update([
+            'worker_id' => $this->worker_id,
+            'salary_amount' => $worker->monthly_salary_amount,
+            'paid_amount' => $this->paid_amount,
+            'unpaid_amount' => $worker->monthly_salary_amount - $this->paid_amount,
+            'date' => $this->date,
+            'type' => $worker->monthly_salary_type,
+        ]);        
+
+        $this->reset(); 
+        $this->createForm = false;
+        $this->editForm = false;
+        session()->flash('success', 'Salary updated successfully!');
     }
 
     public function formCreate(){

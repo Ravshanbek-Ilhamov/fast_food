@@ -67,13 +67,12 @@
                                                 title="Start work at: {{$worker->attendance->where('date', $day->format('Y-m-d'))->first()->started_time}}   
                                                     End work at: {{ $worker->attendance->where('date', $day->format('Y-m-d'))->first()->ended_time  ?? 'currently at the work' }}
                                                     Time: {{ $worker->total_hours ?? '' }}
-                                                    " style="color: {{ $worker->total_hours <= $attendance->time  ? 'green' : 'red' }}">{{$attendance->time}}
+                                                    " style="color: {{ $worker->total_hours <= $attendance->time  ? 'blue' : 'red' }}">{{$attendance->time}}
                                                     @if ($worker->started_time == $attendance->started_time && $worker->ended_time == $attendance->ended_time)
-                                                        <span style="color: green;">+</span>
+                                                        <span style="color: blue;">+</span>
                                                     @else
                                                         <span style="color: red;">-</span>
                                                     @endif
-                                                    
                                         @else
                                         <td wire:click="createAttendance('{{ $worker->id }}', '{{ $day->format('Y-m-d') }}')" >-</td>
                                         @endif
