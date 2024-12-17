@@ -14,7 +14,7 @@ class KPISalaryComponent extends Component
     use WithPagination;
 
 
-    public $createForm = false, $worker_id, $salary_amount, $paid_amount, $unpaid_amount,$type, $editForm = false, $fullDate, $date, $monthName, $year, $daysInMonth;
+    public $createForm = false, $worker_id,$id, $salary_amount, $paid_amount, $unpaid_amount,$type, $editForm = false, $fullDate, $date, $monthName, $year, $daysInMonth;
 
     public function mount()
     {
@@ -54,7 +54,7 @@ class KPISalaryComponent extends Component
         Salary::create([
             'worker_id' => $this->worker_id,
             'salary_amount' => $worker->monthly_salary_amount,
-            'paid_amount' => ($this->paid_amount / 100) * $worker->bonus,
+            'paid_amount' => $this->paid_amount + ($this->paid_amount / 100) * $worker->bonus,
             'unpaid_amount' => $worker->monthly_salary_amount - ($this->paid_amount / 100) * $worker->bonus,
             'date' => $this->date,
             'type' => $worker->monthly_salary_type,
@@ -63,7 +63,44 @@ class KPISalaryComponent extends Component
         $this->createForm = false;
         $this->editForm = false;
     }
+    public function edit($id){
+        $this->editForm = true;
+        $salary = Salary::find($id);
+        // dd($salary);
+        $this->id = $salary->id;
+        $this->worker_id = $salary->worker_id;
+        $this->salary_amount = $salary->salary_amount;
+        $this->paid_amount = $salary->paid_amount;
+        $this->unpaid_amount = $salary->unpaid_amount;
+        $this->date = $salary->date;
+        $this->type = $salary->type;
+    }
 
+    public function update(){
+        
+        $this->validate([
+            'worker_id' => 'required',
+            'paid_amount' => 'required',
+            'date' => 'required',
+        ]);
+
+        $worker = Worker::find($this->worker_id);
+
+        $salary = Salary::find($this->id);
+        $salary->update([
+            'worker_id' => $this->worker_id,
+            'salary_amount' => $worker->monthly_salary_amount,
+            'paid_amount' => $this->paid_amount,
+            'unpaid_amount' => $worker->monthly_salary_amount - $this->paid_amount,
+            'date' => $this->date,
+            'type' => $worker->monthly_salary_type,
+        ]);        
+
+        $this->reset(); 
+        $this->createForm = false;
+        $this->editForm = false;
+        session()->flash('success', 'Salary updated successfully!');
+    }
     public function formCreate(){
         $this->createForm = true;
         $this->reset(['worker_id','salary_amount','paid_amount','unpaid_amount','date','type']);
