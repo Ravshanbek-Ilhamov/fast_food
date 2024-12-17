@@ -33,4 +33,13 @@ class Worker extends Model
         return $this->hasMany(Attendance::class);
     }
 
+
+    public function waiterOrders()
+    {
+        return $this->hasMany(WaiterOrder::class);
+    }
+
+    public function salary(){
+        return $this->hasMany(Salary::class);
+    }
 }

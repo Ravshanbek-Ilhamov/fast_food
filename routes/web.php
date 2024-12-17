@@ -7,8 +7,10 @@ use App\Livewire\AttendanceComponent;
 use App\Livewire\CartComponent;
 use App\Livewire\CategoryComponent;
 use App\Livewire\FoodComponent;
+use App\Livewire\KPISalaryComponent;
 use App\Livewire\LoginComponent;
 use App\Livewire\OrdersComponent;
+use App\Livewire\SalaryComponent;
 use App\Livewire\SectionComponent;
 use App\Livewire\UserPageComponent;
 use App\Livewire\UsersComponent;
@@ -34,3 +36,6 @@ Route::get('/workers',WorkersComponent::class);
 Route::get('/attendance',AttendanceComponent::class);
 Route::get('/waiterboard',WaiterBoardComponent::class);
 Route::get('/all-orders',AllOrderComponent::class);
+
+Route::get('/salary',SalaryComponent::class);
+Route::get('/kpi-salary',KPISalaryComponent::class);
